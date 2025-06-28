@@ -1,0 +1,128 @@
+<!-- File: student-verify-code.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify Code</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: url('my_background.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(247, 243, 243, 0.7);
+      background-blend-mode: overlay;
+    }
+
+    .login-card {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 30px;
+      border-radius: 12px;
+      width: 350px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .login-card h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #1D1D1D;
+    }
+
+    .login-card p {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    .code-boxes {
+      display: flex;
+      justify-content: space-between;
+      margin: 1rem 0;
+    }
+
+    .code-boxes input {
+      width: 45px;
+      height: 45px;
+      text-align: center;
+      font-size: 1.2rem;
+      border: 1px solid #457B9D;
+      border-radius: 8px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background: #2A9D8F;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background: #1D3557;
+    }
+
+    .small-text {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #444444;
+    }
+
+    .small-text a {
+      color: #457B9D;
+      text-decoration: none;
+    }
+
+    .small-text a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <form id="verifyCodeForm" class="login-card">
+    <h2>Check your email</h2>
+    <p>We sent a reset code to <strong>agill8620@gmail.com</strong><br>
+    Enter the 5-digit code you received.</p>
+
+    <div class="code-boxes">
+      <input type="text" maxlength="1">
+      <input type="text" maxlength="1">
+      <input type="text" maxlength="1">
+      <input type="text" maxlength="1">
+      <input type="text" maxlength="1">
+    </div>
+
+    <button type="submit" class="btn">Verify Code</button>
+
+    <p class="small-text">Haven’t got the email yet? <a href="../student/student-resend.html">Resend email</a></p>
+  </form>
+
+  <script>
+    document.getElementById('verifyCodeForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const digits = Array.from(document.querySelectorAll('.code-boxes input')).map(i => i.value).join('');
+      if (digits.length === 5) {
+        alert('Code verified! Redirecting to reset password...');
+        window.location.href = 'student-forget.html';
+      } else {
+        alert('Please enter the complete 5-digit code.');
+      }
+    });
+  </script>
+</body>
+</html>

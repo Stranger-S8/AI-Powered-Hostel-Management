@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hostel Manager Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('auth.static', filename='styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">
+        <h2>🏨 Hostel Manager</h2>
+      </div>
+      <nav class="nav-links">
+        <a href="{{url_for('dashboard.mainpage')}}" class="active">🏠 Dashboard</a>
+        <a href="{{url_for('dashboard.manage_tenants')}}">📝 Manage Tenant</a>
+        <a href="{{url_for('dashboard.manage_rooms')}}">🛏️ Manage Rooms</a>
+        <a href="{{url_for('dashboard.manage_mess')}}">🍽️ Manage Mess</a>
+        <a href="{{url_for('dashboard.manage_complaints')}}">🛠️ Complaints</a>
+        <a href="admin.html">🧑‍💼 Admin Panel</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="main-header">
+        <h1>Welcome Back!</h1>
+        <p>Here’s what’s happening in your hostel today.</p>
+      </header>
+
+      <section class="dashboard-stats">
+        <div class="stat-card">
+          <h3>Total Tenants</h3>
+          <p id="studentCount">{{tenant_count}}</p>
+        </div>
+        <div class="stat-card">
+          <h3>Occupied Rooms</h3>
+          <p id="roomCount">{{occupied_rooms}}</p>
+        </div>
+        <div class="stat-card">
+          <h3>Pending Complaints</h3>
+          <p id="complaintCount">--</p>
+        </div>
+        <div class="stat-card">
+          <h3>Today's Mess Count</h3>
+          <p id="messCount">--</p>
+        </div>
+      </section>
+
+      <section class="quick-links">
+        <h2>Quick Access</h2>
+        <div class="card-container">
+          <div class="card">
+            <h3>👤 Add New Tenant</h3>
+            <p>Enroll a new Tenant and assign room.</p>
+            <a href="{{url_for('tenant.register_tenant')}}" class="btn">Go</a>
+          </div>
+          <div class="card">
+            <h3>🛏️ Manage Rooms</h3>
+            <p>View room status and assign rooms.</p>
+            <a href="{{url_for('dashboard.manage_rooms')}}" class="btn">Go</a>
+          </div>
+          <div class="card">
+            <h3>🍽️ Mess Schedule</h3>
+            <p>Track meals and attendance of tenants.</p>
+            <a href="{{url_for('dashboard.manage_mess')}}" class="btn">Go</a>
+          </div>
+          <div class="card">
+            <h3>🛠️ View Complaints</h3>
+            <p>Monitor and resolve complaints.</p>
+            <a href="{{url_for('dashboard.manage_complaints')}}" class="btn">Go</a>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p>&copy; 2025 AI Powered Hostel Manager. All rights reserved.</p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script>
+    document.getElementById('complaintCount').textContent = 5;
+    document.getElementById('messCount').textContent = 102;
+  </script>
+</body>
+
+</html>

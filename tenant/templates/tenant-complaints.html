@@ -1,0 +1,88 @@
+<!-- File: student-complaints.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Complaints</title>
+  <link rel="stylesheet" href="{{ url_for('t_auth.static', filename='student.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .complaint-card {
+      background-color: #e0f7f5;
+      border-left: 6px solid #2A9D8F;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .complaint-item {
+      background-color: #ffffff;
+      border: 1px solid #d0ece7;
+      color: #1D3557;
+      padding: 0.6rem 1rem;
+      margin: 0.4rem 0;
+      border-radius: 8px;
+      font-weight: 500;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="student-container">
+    <aside class="student-sidebar">
+      <h2>🎓 Student</h2>
+      <nav>
+        <a href="{{url_for('t_dashboard.dashboard_page')}}">Dashboard</a>
+        <a href="{{url_for('t_dashboard.profile_page')}}">My Profile</a>
+        <a href="{{url_for('t_dashboard.room_page')}}">Room Info</a>
+        <a href="{{url_for('t_dashboard.mess_page')}}">Mess</a>
+        <a href="{{url_for('t_dashboard.complaint_page')}}" class="active">Complaints</a>
+        <a href="{{url_for('t_dashboard.logout')}}">Logout</a>
+      </nav>
+    </aside>
+
+    <main class="student-main">
+      <div class="container">
+        <h1 class="mb-4">📢 Submit a Complaint</h1>
+
+        <div class="card p-4 shadow-sm mb-4">
+          <form id="studentComplaintForm">
+            <div class="mb-3">
+              <label for="complaint" class="form-label">Describe Your Complaint</label>
+              <textarea id="complaint" class="form-control" rows="4" required></textarea>
+            </div>
+            <button class="btn btn-success" type="submit">Submit</button>
+          </form>
+        </div>
+
+        <div class="complaint-card">
+          <h5 class="mb-3">🔢 My Complaints</h5>
+          <ul id="myComplaintsList" class="list-unstyled">
+            <li class="complaint-item">Fan is not working in Room 102</li>
+            <li class="complaint-item">Wi-Fi down in Block B</li>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById('studentComplaintForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const text = document.getElementById('complaint').value;
+      if (text) {
+        const li = document.createElement('li');
+        li.textContent = text;
+        li.className = 'complaint-item';
+        document.getElementById('myComplaintsList').appendChild(li);
+        document.getElementById('complaint').value = '';
+        alert('Complaint submitted!');
+      }
+    });
+  </script>
+</body>
+
+</html>

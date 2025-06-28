@@ -1,0 +1,236 @@
+<!-- File: register.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register Tenant</title>
+  <link rel="stylesheet" href="{{ url_for('auth.static', filename='styles.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+
+  <style>
+    .form-card {
+      max-width: 50%;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+      background-color: #f9f9f9;
+    }
+
+    .form-message.error {
+      color: #c62828;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .form-message.success {
+      color: #2e7d32;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .form-card label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    .form-card input,
+    .form-card select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-card input:focus,
+    .form-card select:focus {
+      border-color: #457b9d;
+      box-shadow: 0 0 0 2px rgba(69, 123, 157, 0.2);
+      outline: none;
+    }
+
+    #predictBtn {
+      padding: 8px 10px;
+      font-size: 18px;
+      background-color: #457b9d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .form-card button[type="submit"] {
+      margin-top: 1.5rem;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #457b9d;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-card button[type="submit"]:hover {
+      background-color: #2a9d8f;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">
+        <h2>🏨 Hostel Manager</h2>
+      </div>
+      <nav class="nav-links">
+        <a href="{{url_for('dashboard.mainpage')}}">🏠 Dashboard</a>
+        <a href="{{url_for('dashboard.manage_tenants')}}" class="active">📝 Manage Tenant</a>
+        <a href="{{url_for('dashboard.manage_rooms')}}">🛏️ Manage Rooms</a>
+        <a href="{{url_for('dashboard.manage_mess')}}">🍽️ Manage Mess</a>
+        <a href="{{url_for('dashboard.manage_complaints')}}">🛠️ Complaints</a>
+        <a href="admin.html">🧑‍💼 Admin Panel</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="main-header">
+        <h1>📝 Register New Tenant</h1>
+        <p>Fill in the tenant's personal and academic details.</p>
+      </header>
+
+      <br>
+
+      <form method="POST" class="form-card" action="{{url_for('tenant.adding_tenant')}}">
+        {% with messages = get_flashed_messages(with_categories=true)%}
+        {% if messages%}
+        {% set category, message = messages[-1] %}
+        <div class="form-message {{category}}" id="form-message">{{message}}</div>
+        {% endif %}
+        {%endwith%}
+        <label for="idproof">ID Proof Number</label>
+        <input type="text" id="idproof" name="idproof" required>
+
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="ten-type">Type</label>
+        <select id="ten-type" name="ten-type">
+          <option>Student</option>
+          <option>Employee</option>
+          <option>Other</option>
+        </select>
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">Phone Number</label>
+        <input type="text" id="phone" name="phone" required>
+
+
+        <label for="movein">Move-in Date</label>
+        <input type="date" id="movein" name="movein" required>
+
+        <!-- Add these new fields before the submit button -->
+        <label for="ac">AC Preference</label>
+        <select id="ac" name="ac" required>
+          <option value="">--Select--</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+
+        <label for="sleeptime">Sleep Time</label>
+        <select id="sleeptime" name="sleeptime" required>
+          <option value="">-- Select Time --</option>
+          <option value="9 PM – 10 PM">9 PM – 10 PM</option>
+          <option value="10 PM – 11 PM">10 PM – 11 PM</option>
+          <option value="11 PM – 12 AM">11 PM – 12 AM</option>
+          <option value="12 AM – 1 AM">12 AM – 1 AM</option>
+          <option value="Morning">Morning</option>
+          <option value="Night">Night</option>
+        </select>
+
+        <label for="smoking">Smoking</label>
+        <select id="smoking" name="smoking" required>
+          <option value="">--Select--</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+
+        <label for="room">Room Number</label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <select id="room" name="room" required style="flex: 1;">
+            <option value="">--Select Room--</option>
+            {% for room in room_names %}
+            <option value="{{room}}">{{room}}</option>
+            {% endfor %}
+          </select>
+          <button type="button" id="predictBtn" title="AI Predict Room" type="submit">
+            🧠
+          </button>
+        </div>
+
+
+        <button type="submit">Register Tenant</button>
+      </form>
+
+      <footer class="footer">
+        <p>&copy; 2025 Hostel Manager. All rights reserved.</p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById("predictBtn").addEventListener("click", function () {
+    
+      const ac = document.getElementById("ac").value;
+      const sleeptime = document.getElementById("sleeptime").value;
+      const smoking = document.getElementById("smoking").value;
+      const ten_type = document.getElementById("ten-type").value
+
+      if (!ac || !sleeptime || !smoking || !ten_type) {
+        alert("Please fill Type, AC, sleeptime, and smoking preferences first.");
+        return;
+      }
+
+      fetch("/predict-room", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          ten_type:ten_type,
+          ac: ac,
+          sleeptime: sleeptime,
+          smoking: smoking
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          const predictedRoom = data.room;
+          const roomDropdown = document.getElementById("room");
+          
+          for (let option of roomDropdown.options) {
+            if (option.value === predictedRoom) {
+              option.selected = true;
+              break;
+            }
+          }
+        })
+        .catch(error => {
+          console.error("Prediction failed:", error);
+          alert("Something went wrong while predicting the room.");
+        });
+    });
+
+  </script>
+</body>
+
+</html>

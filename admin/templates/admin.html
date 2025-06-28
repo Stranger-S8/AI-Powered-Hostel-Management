@@ -1,0 +1,49 @@
+<!-- File: admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="{{ url_for('auth.static', filename='styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">
+        <h2>🏨 Hostel Manager</h2>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">🏠 Dashboard</a>
+        <a href="manage_tenants.html">📝 Manage Tenant</a>
+        <a href="manage_rooms.html">🛏️ Manage Rooms</a>
+        <a href="mess.html">🍽️ Manage Mess</a>
+        <a href="complaints.html">🛠️ Complaints</a>
+        <a href="admin.html" class="active">🧑‍💼 Admin Panel</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="main-header">
+        <h1>🧑‍💼 Admin Dashboard</h1>
+        <p>Export reports and manage all hostel data.</p>
+      </header>
+
+      <section class="admin-actions">
+        <button class="btn" onclick="downloadReport('students')">Download Student Report</button>
+        <button class="btn" onclick="downloadReport('rooms')">Download Room Report</button>
+        <button class="btn" onclick="downloadReport('mess')">Download Mess Report</button>
+        <button class="btn" onclick="downloadReport('complaints')">Download Complaints</button>
+      </section>
+
+      <footer class="footer">
+        <p>&copy; 2025 Hostel Manager. All rights reserved.</p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

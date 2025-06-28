@@ -1,0 +1,14 @@
+
+{
+    "menu": {
+      "breakfast": "Paratha & Tea",
+      "lunch": "Biryani & Raita",
+      "dinner": "Daal & Roti"
+    },
+    "attendance": [
+      {"id": "S1001", "name": "Ali Khan"},
+      {"id": "S1003", "name": "Fatima Noor"},
+      {"id": "S1005", "name": "Usman Raza"}
+    ]
+  }
+  

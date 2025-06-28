@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reset Password</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background: url('my_background.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(247, 243, 243, 0.7);
+      background-blend-mode: overlay;
+    }
+    .login-card {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 30px;
+      border-radius: 12px;
+      width: 350px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .title {
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #1D1D1D;
+    }
+    .input-group {
+      margin-bottom: 15px;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: 1px solid #457B9D;
+      border-radius: 8px;
+      background: #FFFFFF;
+      color: #1D1D1D;
+      outline: none;
+    }
+    .input-group input::placeholder {
+      color: #444444;
+    }
+    #reset-btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background: #2A9D8F;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #reset-btn:hover {
+      background: #1D3557;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="title">Reset Password</div>
+    <div class="input-group">
+      <input type="password" id="newpass" placeholder="New Password" />
+    </div>
+    <div class="input-group">
+      <input type="password" id="confirmpass" placeholder="Confirm Password" />
+    </div>
+    <button id="reset-btn">Confirm</button>
+  </div>
+
+  <script>
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      const newPass = document.getElementById('newpass').value.trim();
+      const confirmPass = document.getElementById('confirmpass').value.trim();
+
+      if (!newPass || !confirmPass) {
+        alert("Please fill in both password fields!");
+      } else if (newPass !== confirmPass) {
+        alert("Passwords do not match!");
+      } else {
+        alert("Password successfully changed!");
+        window.location.href = "student-signin.html";
+      }
+    });
+  </script>
+</body>
+</html>

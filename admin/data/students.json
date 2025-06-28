@@ -1,0 +1,28 @@
+
+[
+    {
+      "studentId": "S1001",
+      "name": "Ali Khan",
+      "department": "Computer Science",
+      "year": "2",
+      "contact": "03001234567",
+      "document": "receipt_s1001.pdf"
+    },
+    {
+      "studentId": "S1002",
+      "name": "Fatima Noor",
+      "department": "Software Engineering",
+      "year": "1",
+      "contact": "03111234567",
+      "document": "receipt_s1002.pdf"
+    },
+    {
+      "studentId": "S1003",
+      "name": "Usman Raza",
+      "department": "Information Tech",
+      "year": "3",
+      "contact": "03331234567",
+      "document": "receipt_s1003.pdf"
+    }
+  ]
+  
