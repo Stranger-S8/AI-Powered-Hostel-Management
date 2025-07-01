@@ -64,7 +64,21 @@ class DashboardRoutes:
     @staticmethod
     @dashboard_bp.route('/manage_mess')
     def manage_mess():
-        return render_template('mess.html')
+        page = int(request.args.get('page', 1))
+        per_page = 5
+        
+        all_data = db.get_mess_data()
+        
+        total_pages = (len(all_data) + per_page -1 ) // per_page
+        
+        start = (page - 1) * per_page
+        end = start + per_page
+        data = all_data[start:end]
+        
+        return render_template('mess.html',
+                               data = data,
+                               page = page,
+                               total_pages = total_pages)
 
     @staticmethod
     @dashboard_bp.route('/manage_complaints')

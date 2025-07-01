@@ -2,6 +2,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 import warnings
 import re
+from datetime import date
 
 warnings.filterwarnings(
     "ignore",
@@ -17,7 +18,7 @@ class Database:
         self.db = firestore.client()
     
     def get_doc_id(self, col_name, key, value):
-        id = self.db.collection(col_name.strip()).where(key.strip(), '==', value.strip()).get()[0].id
+        id = self.db.collection(col_name.strip()).where(key.strip(), '==', value).get()[0].id
         
         return id
         
@@ -117,6 +118,18 @@ class Database:
         )
         
         print(f"Tenant_{count + 1} Added")
+    
+    def get_tenant_s_details(self, ten_id, key=None):
+        ten_doc = self.get_doc_id("tenants", "id", int(ten_id))
+        doc_ref = self.db.collection("tenants").document(ten_doc).get()
+        
+        if doc_ref:
+            doc = doc_ref.to_dict()
+            
+        if key is not None:
+            return doc.get(key.strip())
+        else:
+            return doc
     
     def room_exists(self, room):
         rooms = self.db.collection('rooms').where('room_no', '==', room).get()
@@ -252,6 +265,28 @@ class Database:
         self.db.collection("mess").document("strange_menu").set(week_menu)
         
         print("Menu Saved Successfully")
+    
+    def get_mess_data(self):
+        today_date = str(date.today())
+        
+        doc = self.db.collection("messAttendance").document(today_date).get()
+        mess_data = doc.to_dict() or {} 
+        
+        new_list = []
+
+        for ten_id, attendance in mess_data.items():
+            try:
+                ten_name = self.get_tenant_s_details(ten_id, "name")
+            except Exception as e:
+                ten_name = f"Unknown ({ten_id})"
+                print(f"Error fetching tenant name: {e}")
+
+            new_list.append({
+                "name": ten_name,
+                "attendance": attendance
+            })
+
+        return new_list
     
     
     

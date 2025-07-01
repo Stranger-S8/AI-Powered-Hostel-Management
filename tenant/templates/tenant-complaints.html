@@ -33,14 +33,14 @@
 <body>
   <div class="student-container">
     <aside class="student-sidebar">
-      <h2>🎓 Student</h2>
+      <h2>{{Tenant_Name}}</h2>
       <nav>
         <a href="{{url_for('t_dashboard.dashboard_page')}}">Dashboard</a>
         <a href="{{url_for('t_dashboard.profile_page')}}">My Profile</a>
         <a href="{{url_for('t_dashboard.room_page')}}">Room Info</a>
         <a href="{{url_for('t_dashboard.mess_page')}}">Mess</a>
         <a href="{{url_for('t_dashboard.complaint_page')}}" class="active">Complaints</a>
-        <a href="{{url_for('t_dashboard.logout')}}">Logout</a>
+        <a href="{{url_for('t_auth.logout')}}">Logout</a>
       </nav>
     </aside>
 
@@ -70,19 +70,48 @@
   </div>
 
   <script>
-    document.getElementById('studentComplaintForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const text = document.getElementById('complaint').value;
-      if (text) {
-        const li = document.createElement('li');
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById('studentComplaintForm');
+      const textArea = document.getElementById('complaint');
+      const complaintsList = document.getElementById('myComplaintsList');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        let text = textArea.value.trim();
+        let words = text.split(/\s+/).filter(Boolean); // Filters out empty strings from multiple spaces
+
+        if (!text) {
+          alert('Please write your complaint first!');
+          return;
+        }
+
+        if (words.length > 30) {
+          alert(`⚠️ Max 30 words allowed. You typed ${words.length}.`);
+          return;
+        }
+
+        let li = document.createElement('li');
         li.textContent = text;
         li.className = 'complaint-item';
-        document.getElementById('myComplaintsList').appendChild(li);
-        document.getElementById('complaint').value = '';
-        alert('Complaint submitted!');
-      }
+        complaintsList.appendChild(li);
+
+        textArea.value = '';
+        alert('✅ Complaint submitted!');
+      });
+
+      textArea.addEventListener('input', function () {
+        let words = this.value.trim().split(/\s+/).filter(Boolean);
+        if (words.length > 30) {
+          this.value = words.slice(0, 30).join(' ') + ' ';
+          alert('⚠️ Only 30 words allowed. Extra text has been trimmed.');
+        }
+      });
     });
   </script>
+
+
+
 </body>
 
 </html>

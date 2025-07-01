@@ -137,7 +137,7 @@
         <form action="{{ url_for('mess.save_menu') }}" method="POST">
           <div class="table-responsive">
             <table class="table table-bordered align-middle text-center">
-              <thead class="table-light"> 
+              <thead class="table-light">
                 <tr>
                   <th>Day</th>
                   <th>Breakfast</th>
@@ -189,20 +189,36 @@
             </tr>
           </thead>
           <tbody>
+            {% for row in data %}
             <tr>
-              <td>Ali Raza</td>
-              <td>✅</td>
-              <td>✅</td>
-              <td>❌</td>
+              <td>{{row["name"]}}</td>
+              <td>{{'✅' if row["attendance"]["breakfast"] else '❌'}}</td>
+              <td>{{'✅' if row["attendance"]["lunch"] else '❌'}}</td>
+              <td>{{'✅' if row["attendance"]["dinner"] else '❌'}}</td>
             </tr>
+            {% endfor %}
           </tbody>
         </table>
 
         <div class="pagination">
-          <button id="prevBtn">⏪ Previous</button>
-          <span id="pageInfo">Page 1</span>
-          <button id="nextBtn">Next ⏩</button>
+          {% if page > 1 %}
+          <a href="{{url_for('dashboard.manage_mess', page = page - 1)}}">
+            <button id="prevBtn">⏪ Previous</button>
+          </a>
+          {% endif %}
+
+          {% if total_pages == 0 %}
+          {% set total_pages = 1 %}
+          {% endif %}
+
+          <span id="pageInfo">Page {{page}} of  {{total_pages}}</span>
+
+          {% if page < total_pages %} <a href="{{url_for('dashboard.manage_mess', page = page + 1)}}">
+            <button id="nextBtn">Next ⏩</button>
+            </a>
+            {% endif %}
         </div>
+
       </div>
 
 

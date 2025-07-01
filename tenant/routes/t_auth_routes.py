@@ -79,7 +79,12 @@ class TAuthRoutes:
         else:
             flash("Unknown error occured", "error")
             return redirect(url_for('t_auth.signin_page'))
-            
+    
+    @staticmethod
+    @t_auth_bp.route("/logout")
+    def logout():
+        session.clear()
+        return redirect(url_for('t_auth.signin_page'))
         
     
 

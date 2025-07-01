@@ -11,15 +11,19 @@ t_dashboard_bp = Blueprint('t_dashboard',
 
 class TDashboardRoutes:
     
+    @t_dashboard_bp.app_context_processor
+    def inject_tenant_name():
+        ten_id = session.get('tenant_id')
+        name = None
+        if ten_id:
+            name = db.get_tenant_details(ten_id, "name") 
+        
+        return dict(Tenant_Name = name)
+    
     @staticmethod
     @t_dashboard_bp.route('/')
     def dashboard_page():
-      ten_id = session.get('tenant_id')
-      if ten_id:
-        name = db.get_tenant_details(ten_id, "name") 
-        
-        return render_template('tenant-dashboard.html',
-                               Tenant_Name = name)
+        return render_template('tenant-dashboard.html')
     
     @staticmethod
     @t_dashboard_bp.route('/profile')

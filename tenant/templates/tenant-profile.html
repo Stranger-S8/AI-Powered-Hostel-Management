@@ -15,14 +15,14 @@
 <body>
   <div class="student-container">
     <aside class="student-sidebar">
-      <h2>🎓 Student</h2>
+      <h2>{{Tenant_Name}}</h2>
       <nav>
         <a href="{{url_for('t_dashboard.dashboard_page')}}">Dashboard</a>
         <a href="{{url_for('t_dashboard.profile_page')}}" class="active">My Profile</a>
         <a href="{{url_for('t_dashboard.room_page')}}">Room Info</a>
         <a href="{{url_for('t_dashboard.mess_page')}}">Mess</a>
         <a href="{{url_for('t_dashboard.complaint_page')}}">Complaints</a>
-        <a href="{{url_for('t_dashboard.logout')}}">Logout</a>
+        <a href="{{url_for('t_auth.logout')}}">Logout</a>
       </nav>
     </aside>
 

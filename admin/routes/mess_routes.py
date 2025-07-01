@@ -25,3 +25,4 @@ class MessRoutes:
         db.save_mess_menu(week_menu)
 
         return redirect(url_for('dashboard.manage_mess'))
+    

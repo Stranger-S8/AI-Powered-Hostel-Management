@@ -126,31 +126,10 @@ class Database:
             if ten_id not in data:
                 self.db.collection("messAttendance").document(today_date).set({
                     f"{ten_id}" : {"breakfast" : bf, "lunch" : ln, "dinner" : dn}
-                })
+                }, merge=True)
             
         print(f"{today_date} Attendance is Saved")
     
-    def get_mess_data(self):
-        today_date = str(date.today())
-        
-        doc = self.db.collection("messAttendance").document(today_date).get()
-        mess_data = doc.to_dict() or {} 
-        
-        new_list = []
-
-        for ten_id, attendance in mess_data.items():
-            try:
-                ten_name = self.get_tenant_details(int(ten_id), "name")
-            except Exception as e:
-                ten_name = f"Unknown ({ten_id})"
-                print(f"Error fetching tenant name: {e}")
-
-            new_list.append({
-                "name": ten_name,
-                "attendance": attendance
-            })
-
-        return new_list
 
             
             
