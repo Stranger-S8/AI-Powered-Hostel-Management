@@ -14,7 +14,7 @@
   <div class="container">
     <aside class="sidebar">
       <div class="logo">
-        <h2>🏨 Hostel Manager</h2>
+        <h2>🏨 AI Powered Hostel Manager</h2>
       </div>
       <nav class="nav-links">
         <a href="{{url_for('dashboard.mainpage')}}" class="active">🏠 Dashboard</a>
@@ -43,11 +43,11 @@
         </div>
         <div class="stat-card">
           <h3>Pending Complaints</h3>
-          <p id="complaintCount">--</p>
+          <p id="complaintCount">{{com_count}}</p>
         </div>
         <div class="stat-card">
           <h3>Today's Mess Count</h3>
-          <p id="messCount">--</p>
+          <p id="messCount">{{mess_count}}</p>
         </div>
       </section>
 
@@ -85,8 +85,6 @@
 
   <script src="js/api.js"></script>
   <script>
-    document.getElementById('complaintCount').textContent = 5;
-    document.getElementById('messCount').textContent = 102;
   </script>
 </body>
 

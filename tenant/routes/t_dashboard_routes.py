@@ -59,7 +59,10 @@ class TDashboardRoutes:
     @staticmethod
     @t_dashboard_bp.route('/complaints')
     def complaint_page():
-      return render_template('tenant-complaints.html')
+      ten_id = session.get("tenant_id")
+      complaint_det = db.get_complaint_details(ten_id)
+      return render_template('tenant-complaints.html',
+                             data=complaint_det)
     
     @staticmethod
     @t_dashboard_bp.route('/complaints')

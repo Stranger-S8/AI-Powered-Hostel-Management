@@ -16,7 +16,7 @@
 
     .styled-table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: collapse;  
       background-color: #fff;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
       border-radius: 12px;
@@ -106,7 +106,6 @@
         <a href="{{url_for('dashboard.manage_rooms')}}">🛏️ Manage Rooms</a>
         <a href="{{url_for('dashboard.manage_mess')}}">🍽️ Manage Mess</a>
         <a href="{{url_for('dashboard.manage_complaints')}}" class="active">🛠️ Complaints</a>
-        <a href="admin.html">🧑‍💼 Admin Panel</a>
       </nav>
     </aside>
 
@@ -124,76 +123,59 @@
               <th>Tenant Name</th>
               <th>Room No.</th>
               <th>Description</th>
+              <th>Priority</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody id="complaintTableBody">
+            {% for row in data %}
             <tr>
-              <td>CMP001</td>
-              <td>Ali Raza</td>
-              <td>Z1</td>
-              <td>Fan not working</td>
-              <td><span class="status-pending">Pending</span></td>
-              <td><button class="action-btn solve">Mark as Solved</button></td>
+              <td>{{row[0]}}</td>
+              <td>{{row[1]}}</td>
+              <td>{{row[2]}}</td>
+              <td>{{row[3]}}</td>
+              <td>{{row[4]}}</td>
+              <td><span class="{{'status-resolved' if row[5] == 'Resolved' else 'status-pending'}}">{{row[5]}}</span></td>
+              <td>
+                <form method="POST" action="{{ url_for('complaint.mark_complaint_solved') }}">
+                  <input type="hidden" name="complaint_id" value="{{ row[0] }}">
+                  <button class="action-btn solve" type="submit">Mark as Solved</button>
+                </form>
+              </td>
+
             </tr>
-            <tr>
-              <td>CMP002</td>
-              <td>Sana Malik</td>
-              <td>X3</td>
-              <td>Leaking tap in bathroom</td>
-              <td><span class="status-pending">Pending</span></td>
-              <td><button class="action-btn solve">Mark as Solved</button></td>
-            </tr>
-            <tr>
-              <td>CMP003</td>
-              <td>Usman Khan</td>
-              <td>Y2</td>
-              <td>Wi-Fi not connecting</td>
-              <td><span class="status-resolved">Resolved</span></td>
-              <td><button class="action-btn solve" disabled>Resolved</button></td>
-            </tr>
-            <tr>
-              <td>CMP004</td>
-              <td>Iqra Shah</td>
-              <td>Z8</td>
-              <td>Window broken</td>
-              <td><span class="status-pending">Pending</span></td>
-              <td><button class="action-btn solve">Mark as Solved</button></td>
-            </tr>
-            <tr>
-              <td>CMP005</td>
-              <td>Ahmed Bilal</td>
-              <td>W5</td>
-              <td>Light flickering</td>
-              <td><span class="status-pending">Pending</span></td>
-              <td><button class="action-btn solve">Mark as Solved</button></td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </section>
 
       <div class="pagination">
-        <button id="prevBtn">⏪ Previous</button>
-        <span id="pageInfo">Page 1</span>
-        <button id="nextBtn">Next ⏩</button>
+        {% if page > 1 %}
+        <a href="{{url_for('dashboard.manage_complaints', page = page - 1)}}">
+          <button id="prevBtn">⏪ Previous</button>
+        </a>
+        {% endif %}
+
+        {% if total_pages == 0 %}
+        {% set total_pages = 1 %}
+        {% endif %}
+
+        <span id="pageInfo">Page {{page}} of {{total_pages}}</span>
+
+        {% if page < total_pages %} <a href="{{url_for('dashboard.manage_complaints', page = page + 1)}}">
+          <button id="nextBtn">Next ⏩</button>
+          </a>
+          {% endif %}
       </div>
 
       <footer class="footer">
-        <p>&copy; 2025 Hostel Manager. All rights reserved.</p>
+        <p>&copy; 2025 AI Powered Hostel Manager. All rights reserved.</p>
       </footer>
     </main>
   </div>
 
   <script>
-    document.querySelectorAll('.solve').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const row = this.closest('tr');
-        row.querySelector('td:nth-child(5)').innerHTML = '<span class="status-resolved">Resolved</span>';
-        this.textContent = 'Resolved';
-        this.disabled = true;
-      });
-    });
 
   </script>
 </body>

@@ -99,6 +99,27 @@ class Database:
 
         return int(count)
     
+    def count_complaints(self):
+        com_ref = self.db.collection('complaints').where("status", "==", "pending")
+        count_query = com_ref.count()
+        result = count_query.get()
+        count = result[0][0].value
+
+        return int(count)
+    
+    def count_mess(self):
+        today_date = str(date.today())
+        
+        doc_ref = self.db.collection("messAttendance").document(today_date)
+        doc = doc_ref.get()
+
+        if doc.exists:
+            attendance_data = doc.to_dict()
+            count = len(attendance_data)  
+            return count
+        else:
+            return 0
+    
     def add_tenant(self, id, name, t_type, email, phone, date, ac, sleep, smoking, room):
         count = self.count_tenants()
         self.db.collection('tenants').document(f"ten_{count + 1}").set(
@@ -287,6 +308,36 @@ class Database:
             })
 
         return new_list
+    
+    def get_complaint_details(self):
+        comp_details = self.db.collection("complaints").get()
+        
+        complaints = []
+        
+        for detail in comp_details:
+            detail = detail.to_dict()
+            complaints.append((detail.get("id"), 
+                               detail.get("ten_name"), 
+                               detail.get("ten_room"),
+                               detail.get("description"),
+                               detail.get("priority"),
+                               detail.get("status").capitalize()))
+        
+        return complaints
+    
+    def update_complaint_status(self, comp_id):
+        
+        doc_id = self.get_doc_id("complaints", "id", comp_id)
+        
+        self.db.collection("complaints").document(doc_id).update({
+            "status" : "resolved"
+        })
+        
+        print("Complaint Status Updated")
+        
+    
+                
+    
     
     
     

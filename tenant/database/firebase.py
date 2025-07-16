@@ -130,6 +130,44 @@ class Database:
             
         print(f"{today_date} Attendance is Saved")
     
+    def get_complaint_details(self, ten_id):
+        comp_docs = self.db.collection("complaints").where("ten_id", "==", ten_id).get()
+        
+        complaint_list = []
+        
+        for doc in comp_docs:
+            data = doc.to_dict()
+            complaint_list.append((data.get("comp_type"), data.get("description")))
+        
+        return complaint_list
+        
+    def count_complaints(self):
+        comp_ref = self.db.collection('complaints')
+        count_query = comp_ref.count()
+        result = count_query.get()
+        count = result[0][0].value
+
+        return int(count)
+    
+    def submit_complaint(self, ten_id, comp_desc, comp_type, priority):
+        ten_det = self.get_tenant_details(ten_id)
+        
+        comp_count = self.count_complaints()
+        
+        self.db.collection("complaints").document(f"CMP00{comp_count + 1}").set({
+            "id" : f"CMP00{comp_count}",
+            "ten_id" : f"{ten_id}",
+            "ten_name" : ten_det.get("name"),
+            "ten_room" : ten_det.get("room"),
+            "comp_type" : comp_type,
+            "description" : comp_desc,
+            "priority" : priority,
+            "status" : "pending"
+        })
+        
+        print("Complaint submitted successfully")
+        
+    
 
             
             

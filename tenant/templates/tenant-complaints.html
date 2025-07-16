@@ -1,11 +1,10 @@
-<!-- File: student-complaints.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Complaints</title>
+  <title>tenant Complaints</title>
   <link rel="stylesheet" href="{{ url_for('t_auth.static', filename='student.css') }}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
@@ -26,6 +25,25 @@
       border-radius: 8px;
       font-weight: 500;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .char-limit-note {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-message.error {
+      color: #c62828;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .form-message.success {
+      color: #2e7d32;
+      display: block;
+      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -49,11 +67,39 @@
         <h1 class="mb-4">📢 Submit a Complaint</h1>
 
         <div class="card p-4 shadow-sm mb-4">
-          <form id="studentComplaintForm">
+          {% with messages = get_flashed_messages(with_categories=true)%}
+          {% if messages %}
+          {% set category, message = messages[-1] %}
+          <div class="form-message {{ category }}" id="form-message">{{ message }}</div>
+          {% endif %}
+          {% endwith %}
+          
+          <form id="studentComplaintForm" method="post" action="{{ url_for('t_complaint.submit_complaint') }}">
+            <div class="mb-3">
+              <label for="complaintType" class="form-label">Select Complaint Type</label>
+              <select id="complaintType" class="form-select" name="complaintType" required>
+                <option value="" disabled selected>Select type</option>
+                <option value="Cleanliness">Cleanliness</option>
+                <option value="Security">Security</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Food">Food</option>
+                <option value="Internet">Internet</option>
+                <option value="Air Conditioning">Air Conditioning</option>
+                <option value="Plumbing">Plumbing</option>
+                <option value="Roommates">Roommates</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Laundry">Laundry</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
             <div class="mb-3">
               <label for="complaint" class="form-label">Describe Your Complaint</label>
-              <textarea id="complaint" class="form-control" rows="4" required></textarea>
+              <textarea id="complaint" name="complaint" class="form-control" rows="3" maxlength="60" required></textarea>
+              <br>
+              <div class="char-limit-note" id="charCountNote">0 / 60 characters</div>
             </div>
+            
             <button class="btn btn-success" type="submit">Submit</button>
           </form>
         </div>
@@ -61,8 +107,9 @@
         <div class="complaint-card">
           <h5 class="mb-3">🔢 My Complaints</h5>
           <ul id="myComplaintsList" class="list-unstyled">
-            <li class="complaint-item">Fan is not working in Room 102</li>
-            <li class="complaint-item">Wi-Fi down in Block B</li>
+            {% for complaint in data %}
+            <li class="complaint-item">[{{ complaint[0] }}] {{ complaint[1] }}</li>
+            {% endfor %}
           </ul>
         </div>
       </div>
@@ -71,47 +118,16 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const form = document.getElementById('studentComplaintForm');
       const textArea = document.getElementById('complaint');
-      const complaintsList = document.getElementById('myComplaintsList');
+      const charCountNote = document.getElementById('charCountNote');
 
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        let text = textArea.value.trim();
-        let words = text.split(/\s+/).filter(Boolean); // Filters out empty strings from multiple spaces
-
-        if (!text) {
-          alert('Please write your complaint first!');
-          return;
-        }
-
-        if (words.length > 30) {
-          alert(`⚠️ Max 30 words allowed. You typed ${words.length}.`);
-          return;
-        }
-
-        let li = document.createElement('li');
-        li.textContent = text;
-        li.className = 'complaint-item';
-        complaintsList.appendChild(li);
-
-        textArea.value = '';
-        alert('✅ Complaint submitted!');
-      });
-
+      // Live character count only
       textArea.addEventListener('input', function () {
-        let words = this.value.trim().split(/\s+/).filter(Boolean);
-        if (words.length > 30) {
-          this.value = words.slice(0, 30).join(' ') + ' ';
-          alert('⚠️ Only 30 words allowed. Extra text has been trimmed.');
-        }
+        const length = this.value.length;
+        charCountNote.textContent = `${length} / 60 characters`;
       });
     });
   </script>
-
-
-
 </body>
 
 </html>

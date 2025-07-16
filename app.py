@@ -1,16 +1,17 @@
 from flask import Flask, render_template
 from flask_mail import Mail
-import secrets
 
 from admin.routes.auth_routes import auth_bp
 from admin.routes.tenant_routes import tenant_bp
 from admin.routes.dashboard_routes import dashboard_bp
 from admin.routes.room_routes import room_bp
 from admin.routes.mess_routes import mess_bp
+from admin.routes.complaint_routes import complaint_bp
 
 from tenant.routes.t_auth_routes import t_auth_bp
 from tenant.routes.t_dashboard_routes import t_dashboard_bp
 from tenant.routes.t_messroutes import t_mess_bp
+from tenant.routes.t_complaint_routes import t_comp_bp
 from datetime import timedelta
 
 app = Flask(__name__)
@@ -33,13 +34,15 @@ app.register_blueprint(auth_bp, url_prefix="/admin")
 app.register_blueprint(tenant_bp, url_prefix="/manage_tenants")
 app.register_blueprint(dashboard_bp, url_prefix="/AdminDashboard")
 app.register_blueprint(room_bp, url_prefix="/manage_rooms")
-app.register_blueprint(mess_bp, url_prefix="/AdminMess")
+app.register_blueprint(mess_bp, url_prefix="/manage_mess")
+app.register_blueprint(complaint_bp, url_prefix="/manage_complaints")
 
 # Tenant Blueprints
 
 app.register_blueprint(t_auth_bp, url_prefix="/tenant")
 app.register_blueprint(t_dashboard_bp, url_prefix="/TenantDashboard")
 app.register_blueprint(t_mess_bp, url_prefix="/TenantMess")
+app.register_blueprint(t_comp_bp, url_prefix="/Complaint")
 
 app.permanent_session_lifetime = timedelta(days=30)
 

@@ -4,9 +4,7 @@ from admin.database.firebase import Database
 db = Database()
 dashboard_bp = Blueprint('dashboard',
                          __name__,
-                         template_folder="../templates",
-                         static_folder="static",
-                         static_url_path="/admin_static")
+                         template_folder="../templates")
 
 class DashboardRoutes:
     
@@ -15,10 +13,14 @@ class DashboardRoutes:
     def mainpage():
         tenant_count = db.count_tenants()
         occ_room_count = db.count_rooms(True)
+        com_count = db.count_complaints()
+        mess_count = db.count_mess()
         
         return render_template('index.html',
                                tenant_count=tenant_count,
-                               occupied_rooms=occ_room_count
+                               occupied_rooms=occ_room_count,
+                               com_count = com_count,
+                               mess_count=mess_count
                                )
     
     @staticmethod
@@ -83,7 +85,24 @@ class DashboardRoutes:
     @staticmethod
     @dashboard_bp.route('/manage_complaints')
     def manage_complaints():
-        return render_template('complaints.html')
+        page = int(request.args.get('page', 1))
+        per_page = 5
+        
+        all_data = db.get_complaint_details()
+        
+        print(all_data)
+                
+        total_pages = (len(all_data) + per_page -1 ) // per_page
+        
+        start = (page - 1) * per_page
+        end = start + per_page
+        data = all_data[start:end]
+        
+        return render_template('complaints.html', 
+                               data = data,
+                               page = page,
+                               total_pages = total_pages
+                               )
     
     
     
