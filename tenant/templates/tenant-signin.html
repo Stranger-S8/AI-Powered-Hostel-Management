@@ -4,7 +4,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Student Login - Hostel Manager</title>
+  <title>Tenant Login - Hostel Manager</title>
+  <link rel="stylesheet" href="{{ url_for('t_auth.static', filename='student.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -94,18 +95,6 @@
 
     .small-text a:hover {
       text-decoration: underline;
-    }
-
-    .form-message.error {
-      color: #c62828;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .form-message.success {
-      color: #2e7d32;
-      display: block;
-      margin-bottom: 10px;
     }
   </style>
 </head>

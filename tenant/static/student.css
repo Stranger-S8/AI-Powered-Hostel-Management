@@ -1,6 +1,7 @@
 /* Updated: student.css with admin-style structure and original student color palette */
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   font-family: 'Poppins', sans-serif;
@@ -162,4 +163,16 @@ body, html {
   font-size: 0.9rem;
   margin-top: 1rem;
   color: #666;
+}
+
+.form-message.error {
+  color: #c62828;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-message.success {
+  color: #2e7d32;
+  display: block;
+  margin-bottom: 10px;
 }
