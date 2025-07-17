@@ -17,11 +17,9 @@ class ComplaintRoutes:
       desc = request.form.get("complaint")
       c_type = request.form.get("complaintType")
 
-      # ➕ Generate Features and Predict Priority using ML
       features_df = extract_features(desc, c_type)
       predicted_priority = predict_priority(features_df)
 
-      # ➕ Submit with predicted priority
       db.submit_complaint(ten_id, desc, c_type, predicted_priority)
 
       flash(f"Complaint submitted with {predicted_priority} priority.", "success")

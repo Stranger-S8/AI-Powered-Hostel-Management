@@ -137,7 +137,7 @@
     <div class="container">
         <aside class="sidebar">
             <div class="logo">
-                <h2>🏨 Hostel Manager</h2>
+                <h2>🏨 AI Powered Hostel Manager</h2>
             </div>
             <nav class="nav-links">
                 <a href="{{url_for('dashboard.mainpage')}}">🏠 Dashboard</a>
@@ -145,7 +145,6 @@
                 <a href="{{url_for('dashboard.manage_rooms')}}">🛏️ Manage Rooms</a>
                 <a href="{{url_for('dashboard.manage_mess')}}">🍽️ Manage Mess</a>
                 <a href="{{url_for('dashboard.manage_complaints')}}">🛠️ Complaints</a>
-                <a href="admin.html">🧑‍💼 Admin Panel</a>
             </nav>
         </aside>
 
@@ -165,16 +164,16 @@
 
             <div class="center-div">
                 <div class="search-filters">
-                    <input type="text" placeholder="Search Tenants">
+                    <input type="text" placeholder="Search Tenants" disabled>
 
-                    <select>
+                    <select disabled>
                         <option>All Types</option>
                         <option>Student</option>
                         <option>Employee</option>
                         <option>Other</option>
                     </select>
 
-                    <select>
+                    <select disabled>
                         <option>All Status</option>
                         <option>Active</option>
                         <option>Inactive</option>
@@ -206,7 +205,7 @@
                                 <a href="{{url_for('tenant.view_tenants', ten_id=row[0])}}">
                                     <button class="action-btn view" type="button">View</button>
                                 </a>
-                                <a href="#">
+                                <a href="{{ url_for('tenant.edit_tenant', ten_id=row[0]) }}">
                                     <button class="action-btn edit" type="button">Edit</button>
                                 </a>
                                 <form action="{{ url_for('tenant.delete_tenant', tenant_id=row[0]) }}" method="post"

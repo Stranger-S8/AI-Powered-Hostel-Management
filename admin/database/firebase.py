@@ -120,7 +120,27 @@ class Database:
         else:
             return 0
     
-    def add_tenant(self, id, name, t_type, email, phone, date, ac, sleep, smoking, room):
+    def update_tenant(self, id, name, t_type, email, phone, date, ac, sleep, smoking, room, status):
+        doc_id = self.get_doc_id("tenants", "id", int(id))
+        self.db.collection('tenants').document(doc_id).set(
+            {
+            "id" : int(id),
+            "name" : f"{name.strip()}",
+            "type" : f"{t_type.strip()}",
+            "email" : f"{email.strip()}",
+            "phone" : f"{phone.strip()}",
+            "room" : f"{room.strip()}",
+            "date" : f"{date.strip()}",
+            "ac" : f"{ac.strip()}",
+            "sleep_time" : f"{sleep.strip()}",
+            "smoking" : f"{smoking.strip()}",
+            "status" : f"{status}"
+            }
+        )
+        
+        print("Tenant details updated successfully")
+    
+    def add_tenant(self, id, name, t_type, email, phone, date, ac, sleep, smoking, room, status):
         count = self.count_tenants()
         self.db.collection('tenants').document(f"ten_{count + 1}").set(
             {
@@ -134,7 +154,7 @@ class Database:
             "ac" : f"{ac.strip()}",
             "sleep_time" : f"{sleep.strip()}",
             "smoking" : f"{smoking.strip()}",
-            "status" : "active"
+            "status" : f"{status}"
             }
         )
         

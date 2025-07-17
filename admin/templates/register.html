@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Register Tenant</title>
+  <title>{{'Update Tenant' if mode == 'edit' else 'Register Tenant'}}</title>
   <link rel="stylesheet" href="{{ url_for('auth.static', filename='styles.css') }}" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
@@ -76,7 +76,7 @@
   <div class="container">
     <aside class="sidebar">
       <div class="logo">
-        <h2>🏨 Hostel Manager</h2>
+        <h2>🏨 AI Powered Hostel Manager</h2>
       </div>
       <nav class="nav-links">
         <a href="{{url_for('dashboard.mainpage')}}">🏠 Dashboard</a>
@@ -84,19 +84,19 @@
         <a href="{{url_for('dashboard.manage_rooms')}}">🛏️ Manage Rooms</a>
         <a href="{{url_for('dashboard.manage_mess')}}">🍽️ Manage Mess</a>
         <a href="{{url_for('dashboard.manage_complaints')}}">🛠️ Complaints</a>
-        <a href="admin.html">🧑‍💼 Admin Panel</a>
       </nav>
     </aside>
 
     <main class="main-content">
       <header class="main-header">
-        <h1>📝 Register New Tenant</h1>
-        <p>Fill in the tenant's personal and academic details.</p>
+        <h1>{{ '✏️ Edit Tenant details' if mode == 'edit' else '➕ Add New Tenant' }}</h1>
+        <p>{{ 'Update the Tenant details below.' if mode == 'edit' else 'Enter the details below to add a new tenant.'
+          }}</p>
       </header>
 
       <br>
 
-      <form method="POST" class="form-card" action="{{url_for('tenant.adding_tenant')}}">
+      <form method="POST" class="form-card" action="{{url_for('tenant.update_tenant', ten_id=ten_id) if mode == 'edit' else url_for('tenant.adding_tenant')}}">
         {% with messages = get_flashed_messages(with_categories=true)%}
         {% if messages%}
         {% set category, message = messages[-1] %}
@@ -104,52 +104,51 @@
         {% endif %}
         {%endwith%}
         <label for="idproof">ID Proof Number</label>
-        <input type="text" id="idproof" name="idproof" required>
+        <input type="text" id="idproof" name="idproof" value="{{ten_data[0] if mode == 'edit' else ''}}" {{'readonly' if mode == 'edit'}} required>
 
         <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" value="{{ten_data[1] if mode == 'edit' else ''}}" required>
 
         <label for="ten-type">Type</label>
         <select id="ten-type" name="ten-type">
-          <option>Student</option>
-          <option>Employee</option>
-          <option>Other</option>
+          <option {{'selected' if mode=='edit' and ten_data[3]=='Student' else '' }}>Student</option>
+          <option {{'selected' if mode=='edit' and ten_data[3]=='Employee' else '' }}>Employee</option>
+          <option {{'selected' if mode=='edit' and ten_data[3]=='Other' else '' }}>Other</option>
         </select>
 
         <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" value="{{ten_data[6] if mode == 'edit' else ''}}" required>
 
         <label for="phone">Phone Number</label>
-        <input type="text" id="phone" name="phone" required>
+        <input type="text" id="phone" name="phone" value="{{ten_data[5] if mode == 'edit' else ''}}" required>
 
 
         <label for="movein">Move-in Date</label>
-        <input type="date" id="movein" name="movein" required>
+        <input type="date" id="movein" name="movein" value="{{ten_data[7] if mode == 'edit' else ''}}" required>
 
-        <!-- Add these new fields before the submit button -->
         <label for="ac">AC Preference</label>
         <select id="ac" name="ac" required>
           <option value="">--Select--</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
+          <option value="Yes" {{'selected' if mode=='edit' and ten_data[8]=='Yes' else '' }}>Yes</option>
+          <option value="No" {{'selected' if mode=='edit' and ten_data[8]=='No' else '' }}>No</option>
         </select>
 
         <label for="sleeptime">Sleep Time</label>
         <select id="sleeptime" name="sleeptime" required>
           <option value="">-- Select Time --</option>
-          <option value="9 PM – 10 PM">9 PM – 10 PM</option>
-          <option value="10 PM – 11 PM">10 PM – 11 PM</option>
-          <option value="11 PM – 12 AM">11 PM – 12 AM</option>
-          <option value="12 AM – 1 AM">12 AM – 1 AM</option>
-          <option value="Morning">Morning</option>
-          <option value="Night">Night</option>
+          <option value="9 PM – 10 PM" {{'selected' if mode=='edit' and ten_data[9]=='9 PM – 10 PM' else '' }}>9 PM – 10 PM</option>
+          <option value="10 PM – 11 PM" {{'selected' if mode=='edit' and ten_data[9]=='10 PM – 11 PM' else '' }}>10 PM – 11 PM</option>
+          <option value="11 PM – 12 AM" {{'selected' if mode=='edit' and ten_data[9]=='11 PM – 12 AM' else '' }}>11 PM – 12 AM</option>
+          <option value="12 AM – 1 AM" {{'selected' if mode=='edit' and ten_data[9]=='12 AM – 1 AM' else '' }}>12 AM – 1 AM</option>
+          <option value="Morning" {{'selected' if mode=='edit' and ten_data[9]=='Morning' else '' }}>Morning</option>
+          <option value="Night" {{'selected' if mode=='edit' and ten_data[9]=='Night' else '' }}>Night</option>
         </select>
 
         <label for="smoking">Smoking</label>
         <select id="smoking" name="smoking" required>
           <option value="">--Select--</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
+          <option value="Yes" {{'selected' if mode=='edit' and ten_data[10]=='Yes' else '' }}>Yes</option>
+          <option value="No" {{'selected' if mode=='edit' and ten_data[10]=='No' else '' }}>No</option>
         </select>
 
         <label for="room">Room Number</label>
@@ -157,7 +156,7 @@
           <select id="room" name="room" required style="flex: 1;">
             <option value="">--Select Room--</option>
             {% for room in room_names %}
-            <option value="{{room}}">{{room}}</option>
+            <option value="{{room}}" {{'selected' if mode=='edit' and ten_data[2] == room else '' }}>{{room}}</option>
             {% endfor %}
           </select>
           <button type="button" id="predictBtn" title="AI Predict Room" type="submit">
@@ -165,8 +164,15 @@
           </button>
         </div>
 
+        <label for="status">Tenant Status</label>
+        <select id="status" name="status" required>
+          <option value="">--Select--</option>
+          <option value="active" {{'selected' if mode=='edit' and ten_data[4]=='active' else '' }}>active</option>
+          <option value="Not active" {{'selected' if mode=='edit' and ten_data[4]=='Not active' else '' }}>Not active</option>
+        </select>
 
-        <button type="submit">Register Tenant</button>
+
+        <button type="submit">{{ 'Update Tenant' if mode == 'edit' else 'Register Tenant' }}</button>
       </form>
 
       <footer class="footer">
