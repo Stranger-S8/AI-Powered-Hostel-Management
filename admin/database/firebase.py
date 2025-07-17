@@ -135,7 +135,8 @@ class Database:
             "sleep_time" : f"{sleep.strip()}",
             "smoking" : f"{smoking.strip()}",
             "status" : f"{status}"
-            }
+            },
+            merge=True
         )
         
         print("Tenant details updated successfully")
