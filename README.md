@@ -19,8 +19,29 @@ This project is designed to make hostel administration smoother by digitizing op
 ## 🛠️ Tech Stack
 **Frontend:** HTML, CSS, JavaScript  
 **Backend:** Flask (Python)  
-**Database:** SQLite / MySQL (depending on setup)  
+**Database:** Firebase 
 **Machine Learning:** Scikit-learn / TensorFlow (for complaint prioritization)  
 
 ---
+
+
+---
+
+## ⚡ Installation & Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Stranger-S8/AI-Powered-Hostel-Management.git
+   cd AI-Hostel-Management
+2. **Create and activate a virtual environment**
+    python -m venv venv
+    venv\Scripts\activate     # On Windows
+    source venv/bin/activate  # On Mac/Linux
+3. **Install dependencies**
+    pip install -r requirements.txt
+4.  **Run the Flask server**
+    python app.py
+5. **Access the app**
+    Open your browser at http://127.0.0.1:5000
+
 
